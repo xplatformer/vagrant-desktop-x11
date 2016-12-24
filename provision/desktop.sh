@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# bootstrap.sh
+# desktop.sh
 #
 # This file is specified in the Vagrantfile and is loaded by Vagrant as the
 # primary provisioning script on the first `vagrant up` or subsequent 'up' with
@@ -25,12 +25,43 @@ fi
 
 apt-get -y update && apt-get -y upgrade && apt-get -y autoremove
 
-apt-get install -y ubuntu-desktop
-apt-get --no-install-recommends install -y virtualbox-guest-utils
+# Setting encoding
+echo "-----------------------------"
+echo “LANG=en_US.UTF-8” >> /etc/environment
+echo “LANGUAGE=en_US.UTF-8” >> /etc/environment
+echo “LC_ALL=en_US.UTF-8” >> /etc/environment
+echo “LC_CTYPE=en_US.UTF-8” >> /etc/environment
+
+echo "-----------------------------"
+echo "Installing virtualbox guest"
+apt-get --no-install-recommends install -y virtualbox-guest-dkms virtualbox-guest-utils virtualbox-guest-x11
+sed -i 's/allowed_users=.*$/allowed_users=anybody/' /etc/X11/Xwrapper.config
+
+echo "-----------------------------"
+echo "Installing graphic desktop manager"
+apt-get install gdm
+dpkg-reconfigure gdm
+
+echo "-----------------------------"
+echo "Installing desktop environment"
+ENVIRONMENT=$@
+echo "Argument is passed " $ENVIRONMENT
+if [ "$ENVIRONMENT" == "lubuntu" ]; then
+    apt-get --no-install-recommends install -y lubuntu-desktop
+elif [ "$ENVIRONMENT" == "ubuntu" ]; then
+    apt-get --no-install-recommends install -y ubuntu-desktop
+else
+    apt-get --no-install-recommends install -y ubuntu-desktop
+    apt-get install -y software-center*
+fi
+
+echo "-----------------------------"
+echo "Installing essentials"
+apt-get install -y gnome-terminal
 
 end_seconds="$(date +%s)"
 echo "-----------------------------"
-echo "Provisioning complete in "$(expr $end_seconds - $start_seconds)" seconds"
+echo "Desktop provisioning complete in "$(expr $end_seconds - $start_seconds)" seconds"
 if [[ $ping_result == *bytes?from* ]]; then
         echo "External network connection established, packages up to date."
 else

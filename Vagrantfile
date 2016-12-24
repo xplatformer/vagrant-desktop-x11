@@ -22,12 +22,10 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # The URL from where the 'config.vm.box' box will be fetched if it
   # doesn't already exist on the user's system. Sources of other Vagrant
   # boxes are provided in this Project's README.
+
   #
-  # 32-bit Ubuntu 12.04 LTS
-  config.vm.box_url = "http://cloud-images.ubuntu.com/vagrant/xenial/current/xenial-server-cloudimg-i386-vagrant-disk1.box"
-  #
-  # 64-bit Ubuntu 12.04 LTS
-  # config.vm.box_url = "http://cloud-images.ubuntu.com/vagrant/xenial/current/xenial-server-cloudimg-amd64-vagrant-disk1.box"
+  # 64-bit Ubuntu 15.10 LTS
+  config.vm.box_url = "https://cloud-images.ubuntu.com/vagrant/wily/current/wily-server-cloudimg-amd64-vagrant-disk1.box"
   config.vm.hostname = "ubuntu-xenial"
 
   # Forward Agent
@@ -92,6 +90,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # Provisioning
   #
   # Process one or more provisioning scripts depending on the existence of custom files.
+  config.vm.provision :shell, inline: "apt-get -y update && apt-get -y upgrade && apt-get -y autoremove"
+
   #
   # provison-pre.sh
   #
@@ -99,8 +99,17 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # should run before the shell commands laid out in bootstrap.sh (or your provision-custom.sh
   # file) should go in this script. If it does not exist, no extra provisioning will run.
   if File.exists?(File.join(vagrant_dir,'provision','provision-pre.sh')) then
-    config.vm.provision :shell, :path => File.join( "provision", "provision-pre.sh" )
+    config.vm.provision :shell, :path => File.join( "provision", "provision-pre.sh" ), args: ENV['DESKTOP_ENVIRONMENT']
   end
+
+  #
+  # desktop.sh
+  #
+  # provison-pre.sh acts as a pre-hook to the default provisioning script. Anything that
+  # should run before the shell commands laid out in bootstrap.sh (or your provision-custom.sh
+  # file) should go in this script. If it does not exist, no extra provisioning will run.
+  config.vm.provision :shell, :path => File.join( "provision", "desktop.sh" ), args: ENV['DESKTOP_ENVIRONMENT']  
+
   #
   # bootstrap.sh or provision-custom.sh
   #
@@ -109,10 +118,11 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # created, it is run as a replacement. This is an opportunity to replace the entirety
   # of the provisioning provided by the default bootstrap.sh.
   if File.exists?(File.join(vagrant_dir,'provision','provision-custom.sh')) then
-    config.vm.provision :shell, :path => File.join( "provision", "provision-custom.sh" )
+    config.vm.provision :shell, :path => File.join( "provision", "provision-custom.sh" ), args: ENV['DESKTOP_ENVIRONMENT']
   else
-    config.vm.provision :shell, :path => File.join( "provision", "bootstrap.sh" )
+    config.vm.provision :shell, :path => File.join( "provision", "bootstrap.sh" ), args: ENV['DESKTOP_ENVIRONMENT']
   end
+
   #
   # provision-post.sh
   #
@@ -121,6 +131,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # put into this file. This provides a good opportunity to install additional packages
   # without having to replace the entire default provisioning script.
   if File.exists?(File.join(vagrant_dir,'provision','provision-post.sh')) then
-    config.vm.provision :shell, :path => File.join( "provision", "provision-post.sh" )
+    config.vm.provision :shell, :path => File.join( "provision", "provision-post.sh" ), args: ENV['DESKTOP_ENVIRONMENT']
   end
+
+  config.vm.provision :shell, inline: "reboot"
 end
