@@ -1,11 +1,11 @@
 #!/bin/bash
 #=============================================================================
 #
-#          FILE:  setup.sh
+#          FILE:  bootstrap.sh
 #
-#         USAGE:  ./setup.sh
+#         USAGE:  ./bootstrap.sh
 #
-#   DESCRIPTION: A template for setup.sh
+#   DESCRIPTION: A template for bootstrap.sh
 #       
 #              
 #
@@ -36,5 +36,5 @@ end="$(date +%s)"
 echo "-----------------------------"
 echo "Provisioning complete in "$(expr $end_seconds - $start_seconds)" seconds"
 echo "+---------------------------------------+"
-echo "| Linux Desktop Environment Provisioned |"
+echo "| Linux Development Provisioned |"
 echo "+---------------------------------------+"

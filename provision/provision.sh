@@ -1,9 +1,9 @@
 #!/bin/bash
 #=============================================================================
 #
-#          FILE:  bootstrap.sh
+#          FILE:  provision.sh
 #
-#         USAGE:  ./bootstrap.sh
+#         USAGE:  ./provision.sh
 #
 #   DESCRIPTION: The primary provisioning script for the linux desktop 
 #       environment.  It setups the desktop to use have the necessary 
@@ -17,6 +17,10 @@
 #        AUTHOR:  jrbeverly
 #
 #==============================================================================
+# Functions
+#
+
+#==============================================================================
 
 echo "+----------------------------------------+"
 echo "| Provisioning Linux Desktop Environment |"
@@ -27,7 +31,7 @@ start="$(date +%s)"
 echo "-----------------------------"
 echo "Checking for external network connection..."
 ONLINE=$(nc -z 8.8.8.8 53  >/dev/null 2>&1)
-if [ $ONLINE -eq 0 ]; then
+if [[ $ONLINE -eq $zero ]]; then 
     echo "External network connection established, updating packages."
 else
     echo "No external network available. Provisioning is halted."
@@ -36,8 +40,8 @@ fi
 
 echo "-----------------------------"
 echo "Setting timezone..."
-apt-get -y install python-pip > /
-pip install -U tzupdate > /dev/null 2>&1
+apt-get -y install python-pip
+pip install -U tzupdate
 tzupdate
 
 echo "-----------------------------"
@@ -47,20 +51,25 @@ apt-get -y update && apt-get -y upgrade && apt-get -y autoremove
 echo "-----------------------------"
 echo "Installing $ENVIRONMENT environment" 
 if [ "$ENVIRONMENT" == "lubuntu" ]; then
-    apt install -y lubuntu-desktop
-elif [ "$ENVIRONMENT" == "kubuntu" ]; then
-    apt install -y kubuntu-desktop
-elif [ "$ENVIRONMENT" == "lxde" ]; then
-    #apt install -y lxde
-elif [ "$ENVIRONMENT" == "cinnamon" ]; then
-    add-apt-repository ppa:embrosyn/cinnamon -y
-    apt-get -y update
-    apt-get -y install cinnamon blueberry
-else #elif [ "$ENVIRONMENT" == "ubuntu" ]; then
+    apt-get -y install --no-install-recommends lubuntu-desktop
+elif [ "$ENVIRONMENT" == "lubuntu-full" ]; then
+    apt-get -y install --install-recommends lubuntu-desktop 
+elif [ "$ENVIRONMENT" == "ubuntu" ]; then
     apt-get -y install --no-install-recommends ubuntu-desktop 
     apt-get -y install --install-recommends unity indicator-session
     apt-get -y install gnome-terminal
+elif [ "$ENVIRONMENT" == "ubuntu-full" ]; then
+    apt-get -y install ubuntu-desktop 
 fi
+
+#elif [ "$ENVIRONMENT" == "kubuntu" ]; then
+#    apt install -y kubuntu-desktop
+#elif [ "$ENVIRONMENT" == "lxde" ]; then
+#    apt install -y lxde
+#elif [ "$ENVIRONMENT" == "cinnamon" ]; then
+#    add-apt-repository ppa:embrosyn/cinnamon -y
+#    apt-get -y update
+#    apt-get -y install cinnamon blueberry
 
 echo "-----------------------------"
 apt-get install -y virtualbox-guest-utils virtualbox-guest-x11 virtualbox-guest-dkms
@@ -77,4 +86,3 @@ echo "Provisioning complete in "$(expr $end_seconds - $start_seconds)" seconds"
 echo "+---------------------------------------+"
 echo "| Linux Desktop Environment Provisioned |"
 echo "+---------------------------------------+"
-
