@@ -1,30 +1,53 @@
-# Vagrant-Desktop
+# X11 Vagrant Desktop
+[![License][license-badge]][license-link]
 
-Provide a Linux Desktop environment sandboxed on a Windows host.
+---
+
+## Summary
+
+Provide a method of reproducible graphical development environments based on Linux.  This repositroy provides a X11 Linux Desktop environment for the development of the XPlatformer project.
 
 ## Usage
 
-Now that you're up and running, start poking around and modifying things.
+You can use this locally with `vagrant up`, calling as such:
 
-1. `vagrant up`. Log in with the username `vagrant` and password `vagrant`.
-1. `vagrant halt` `vagrant up`.
-1. `vagrant suspend` `vagrant resume`.
-1. `vagrant provision`.
-1. `vagrant destroy`.
+```
+vagrant --name=mydesktop --desktop=lubuntu up
+```
 
-## Environments
+It is recommended to use the script `start.sh` to ensure all arguments are provided in their proper form.  You can do so by calling:
 
-Environments available with the vagrant machine specified here:
+```
+./start.sh -n mydesktop -d lubuntu
+```
 
-| Flag        	| Description   			  |
-| --------------| ------------- 			  |
-| ubuntu      	| Minimal  installation |
-| ubuntu-full	| Full ubuntu installation 	  |
+If you want more information about the script `start.sh`, you can do so by calling:
 
-## VirtualBox
+```
+./start.sh -h
+```
 
-[VirtualBox](https://www.virtualbox.org/wiki/Virtualization)
+## Parameters
 
-## Vagrant
+The parameters are used in the calling of `vagrant up`, primarily as `vagrant <options> up`.  After provisioning the environment, a settings file (`setting.yaml`) is created, which the provided parameters.
 
-[Vagrant](http://www.vagrantup.com)
+| Name | Type | Description |
+| ---  | ---  | ---         |
+| name | string | Name of the provisioned desktop environment |
+| desktop | filename | The name of the desktop provisioning script.  These scripts are present in `provision/environments`. |
+
+It is based on `bento/ubuntu` images.  If the timezone is not set, the provision script will attempt to auto-detect the timezone using the [`tzupdate`](https://github.com/cdown/tzupdate).
+
+## Dependencies 
+
+The following are the dependencies of the vagrant project
+
+* `getoptlong` - The [GetoptLong](http://ruby-doc.org/stdlib-2.1.0/libdoc/getoptlong/rdoc/GetoptLong.html) class allows you to parse command line options similarly to the GNU getopt_long() C library call.
+* `yaml` - The [YAML](https://ruby-doc.org/stdlib-1.9.3/libdoc/yaml/rdoc/YAML.html) module provides a Ruby interface for data serialization in YAML format.
+
+## Setting up the application 
+
+On first run (`vagrant up`) the base `bento/ubuntu` image will be downloaded, and the environments will be created.  
+
+[license-badge]: https://img.shields.io/badge/license-MIT-blue.svg?maxAge=2592000
+[license-link]: LICENSE

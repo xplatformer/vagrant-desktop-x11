@@ -1,36 +1,26 @@
 #!/bin/bash
 #=============================================================================
 #
-#          FILE:  bootstrap.sh
+#          FILE:  provision.sh
 #
-#         USAGE:  ./bootstrap.sh
+#         USAGE:  ./provision.sh
 #
-#   DESCRIPTION: A template for bootstrap.sh
-#       
-#              
+#   DESCRIPTION: The primary provisioning script for the linux desktop 
+#       environment.  It setups the desktop to use have the necessary 
+#       components for a good user experience.  
 #
 #       OPTIONS:  ---
 #  REQUIREMENTS:  ---
 #         NOTES:  ---
-#        AUTHOR:  ---
+#        AUTHOR:  jrbeverly
 #
 #==============================================================================
 
+echo "+----------------------------------------+"
+echo "| Provisioning Environment               |"
+echo "+----------------------------------------+"
+
 start="$(date +%s)"
-
-echo "+-----------------------------+"
-echo "| X11 Development Environment |"
-echo "+-----------------------------+"
-
-echo "-----------------------------"
-echo "Checking for external network connection..."
-ONLINE=$(nc -z 8.8.8.8 53  >/dev/null 2>&1)
-if [ $ONLINE -eq 0 ]; then
-    echo "External network connection established, updating packages."
-else
-    echo "No external network available. Provisioning is halted."
-    exit 1
-fi
 
 echo "-----------------------------"
 echo "Installing libraries..."
@@ -48,6 +38,6 @@ apt-get -y install smartgithg firefox google-chrome-stable
 end="$(date +%s)"
 echo "-----------------------------"
 echo "Provisioning complete in "$(expr $end - $start)" seconds"
-echo "+-----------------------------+"
-echo "| X11 Development Provisioned |"
-echo "+-----------------------------+"
+echo "+---------------------------------------+"
+echo "| Environment Provisioned               |"
+echo "+---------------------------------------+"
