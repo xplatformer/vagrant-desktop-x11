@@ -5,7 +5,7 @@
 
 ## Summary
 
-Provide a method of reproducible graphical development environments based on Linux.  This repositroy provides a X11 Linux Desktop environment for the development of the XPlatformer project.
+Provide a method of reproducible graphical development environments based on Linux.  This repository provides a X11 Linux Desktop environment for the development of the XPlatformer project.
 
 ## Usage
 
