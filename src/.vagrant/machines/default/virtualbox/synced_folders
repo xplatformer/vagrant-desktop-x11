@@ -1,1 +1,0 @@
-{"virtualbox":{"/local":{"guestpath":"/local","hostpath":"C:/Users/Jonathan/Programming/Repositories/vagrant-desktop-x11","disabled":false,"__vagrantfile":true},"/vagrant":{"guestpath":"/vagrant","hostpath":"C:/Users/Jonathan/Programming/Repositories/vagrant-desktop-x11/src","disabled":false,"__vagrantfile":true}}}
