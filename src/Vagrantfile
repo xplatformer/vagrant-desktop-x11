@@ -86,7 +86,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # Shared Folders
   #
   config.vm.synced_folder "../", "/opt/vagrant"
-  config.vm.synced_folder "../../", "/home/vagrant/repositories"
+  config.vm.synced_folder "../../../", "/home/vagrant/repositories"
 
   # 
   # Virtualbox configuration
