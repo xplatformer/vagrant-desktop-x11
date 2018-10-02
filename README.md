@@ -4,7 +4,7 @@
 
 Provide a method of reproducible graphical development environments based on Linux. This repository provides a X11 Linux Desktop environment for the development of the XPlatformer project.
 
-### Usage
+## Getting Started
 
 You can use this locally with `vagrant up`, calling as such:
 
@@ -34,28 +34,6 @@ The parameters are used in the calling of `vagrant up`, primarily as `vagrant [O
 | desktop | `filename` | The name of the desktop provisioning script.  These scripts are present in [`packaging/environments`](src/packaging/environments). |
 
 The vagrant environment is based on the `bento/ubuntu` images.  If the timezone is not set, the provision script will attempt to auto-detect the timezone using [`tzupdate`](https://github.com/cdown/tzupdate).
-
-## Components
-
-On first run (`create.sh ...`) the base `bento/ubuntu` image will be downloaded, and the packages for a graphical interface will be downloaded. This will take a significant amount of time to fully setup to become fully installed.  The default user is `vagrant` with password `vagrant`.
-
-### Architecture
-
-The `vagrant-desktop-x11` is meant to be included as a git submodule as part of a `.Workspace` project.  The following is the architecture of a `.Workspace` meta-project:
-
-    * .Workspace Repository
-        * bin
-        * lib
-        * build
-            * build-all.sh
-        * Repositories
-            * XPlatformer (git repo submodule)
-            * XGameLib (git repo submodule)
-        * Environments
-            * vagrant-desktop (git repo submodule)
-        README.md
-
-The concept of this architecture is that the vagrant-desktop git repository can provision the desktop environment necessary for development.  From within the environment you can then edit the source code that is on the host system.
 
 ## Acknowledgements
 
