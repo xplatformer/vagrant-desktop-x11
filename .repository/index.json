@@ -1,0 +1,20 @@
+{
+  "slug": "vagrant-desktop-x11",
+  "namespace": "xplatformer",
+  "status": "archived",
+  "icon": "icon.svg",
+  "license": {
+    "type": "MIT",
+    "content": "Jonathan Beverly <jrbeverly>"
+  },
+  "topics": [
+    "vagrant",
+    "shell",
+    "x11",
+    "virtualbox",
+    "desktop-environment"
+  ],
+  "languages": [
+    "Shell"
+  ]
+}
