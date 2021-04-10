@@ -1,0 +1,18 @@
+slug: vagrant-desktop-x11
+description: This repository provides a X11 Linux Desktop environment for the development of the XPlatformer project.
+project: xplatformer
+namespace: env
+status: archived
+icon: icon.svg
+license:
+  type: MIT
+  content: Jonathan Beverly <jrbeverly>
+  year: 2017
+topics: |-
+  [
+    "vagrant",
+    "shell",
+    "x11",
+    "virtualbox",
+    "desktop-environment"
+  ]
